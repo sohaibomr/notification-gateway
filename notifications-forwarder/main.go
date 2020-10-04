@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"sync"
+	"time"
 
 	"github.com/sohaibomr/notification-gateway/demo/consumer"
 )
@@ -17,6 +19,8 @@ func init() {
 	setup()
 }
 func setup() {
+	log.Println("Waiting for kafka to start...")
+	time.Sleep(20 * time.Second)
 	//get consumer config
 	smsGroupID = "smsNotifications"
 	pushNotificationGroupID = "pushNotifications"

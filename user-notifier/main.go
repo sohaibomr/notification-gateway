@@ -1,6 +1,11 @@
 package main
 
-import "github.com/sohaibomr/notification-gateway/user-notofier/consumer"
+import (
+	"log"
+	"time"
+
+	"github.com/sohaibomr/notification-gateway/user-notofier/consumer"
+)
 
 // add health API
 var (
@@ -12,6 +17,8 @@ func init() {
 	setup()
 }
 func setup() {
+	log.Println("Waiting for kafka to start...")
+	time.Sleep(20 * time.Second)
 	//get consumer config
 	kafkaGroupID = "userNotifications"
 	topicNames = []string{"user"}

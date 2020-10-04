@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.7'
 services:
   zookeeper:
     image: wurstmeister/zookeeper
@@ -13,4 +13,32 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: localhost:2181
       KAFKA_CREATE_TOPICS: "group:1:1,user:1:1,sms:1:1,push:1:1"
+    network_mode: host
+
+  gateway-server:
+    build:
+      context: ./
+      dockerfile: ./gateway/Dockerfile
+    container_name: gateway-server
+    network_mode: host
+  
+  group-notifier:
+    build:
+      context: ./
+      dockerfile: ./group-notifier/Dockerfile
+    container_name: group-notifier
+    network_mode: host
+
+  user-notifier:
+    build:
+      context: ./
+      dockerfile: ./user-notifier/Dockerfile
+    container_name: user-notifier
+    network_mode: host
+  
+    notifications-forwarder:
+    build:
+      context: ./
+      dockerfile: ./notifications-forwarder/Dockerfile
+    container_name: notifications-forwarder
     network_mode: host

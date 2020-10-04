@@ -6,13 +6,10 @@ import (
 	"log"
 	"time"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/sohaibomr/notification-gateway/common/models"
 
 	"github.com/Shopify/sarama"
-)
-
-const (
-	StatusCodeOK = 200
 )
 
 func NewKafkaProducer(brokerList []string) sarama.AsyncProducer {
@@ -67,4 +64,18 @@ func NotificationForwarder(notification *models.UserMsg, producer sarama.AsyncPr
 		sendPushNotification(notification, producer)
 	}
 
+}
+
+func GinValidationErr(verr validator.ValidationErrors) map[string]string {
+	errs := make(map[string]string)
+
+	for _, f := range verr {
+		err := f.ActualTag()
+		if f.Param() != "" {
+			err = fmt.Sprintf("%s=%s", err, f.Param())
+		}
+		errs[f.Field()] = err
+	}
+
+	return errs
 }

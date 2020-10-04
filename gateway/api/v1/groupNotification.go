@@ -2,7 +2,12 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
+	"net/http"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/sohaibomr/notification-gateway/common/models"
 
 	"github.com/sohaibomr/notification-gateway/common/util"
 
@@ -11,27 +16,29 @@ import (
 )
 
 type groupNotificationRequest struct {
-	Type     string   `json:"type"` //group or custom/personalized
-	SendVia  string   `json:"sendVia"`
-	Message  string   `json:"message"`
-	GroupID  string   `json:"groupId"`
-	Category string   `json:"category"` // promo code, destination reached, captain waiting etc
-	Tags     []string `json:"tags"`
+	GroupID string `json:"groupId" binding:"required"`
+	models.NotificationRequest
 }
 
 // Notification pushes noti to kafka topic
 func (ac *APIContext) GroupNotification(c *gin.Context) {
 
 	var req groupNotificationRequest
-	c.BindJSON(&req)
+	if err := c.ShouldBind(&req); err != nil {
+		var verr validator.ValidationErrors
+		if errors.As(err, &verr) {
+			c.JSON(http.StatusBadRequest, gin.H{"errors": util.GinValidationErr(verr)})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
+		return
+	}
 	payload, err := json.Marshal(req)
 	if err != nil {
 		log.Println(err)
 	}
 
-	// TODO: return error, add schema validation
 	ac.kafkaProducer.Input() <- &sarama.ProducerMessage{Topic: ac.groupTopic, Value: sarama.ByteEncoder(payload)}
-	// TODO:gracefully cloe application and close producer
-	c.JSON(util.StatusCodeOK, req)
+	c.JSON(http.StatusOK, req)
 
 }

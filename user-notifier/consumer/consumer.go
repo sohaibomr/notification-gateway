@@ -62,17 +62,16 @@ func (c *UserConsumer) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sara
 	producer := util.NewKafkaProducer(brokers)
 	defer producer.Close()
 	for msg := range claim.Messages() {
-		fmt.Printf("consumed a message: %v\n", string(msg.Value))
 		jsonMap := make(map[string]interface{})
 		json.Unmarshal(msg.Value, &jsonMap)
 		var notification models.UserMsg
-		notification.Message = msg["message"].(string)
-		notification.SendVia = msg["sendVia"].(string)
-		userID := msg["userId"].(string)
+		notification.Message = jsonMap["message"].(string)
+		notification.SendVia = jsonMap["sendVia"].(string)
+		userID := jsonMap["userId"].(string)
 		if util.UserExist(userID) {
 			notification.UserDetail = models.UsersMap[userID]
 		}
-		util.NoificationForwarder(&notification, producer) // sends notifiation to sms or push chanel
+		util.NotificationForwarder(&notification, producer) // sends notifiation to sms or push chanel
 		sess.MarkMessage(msg, "")
 	}
 	return nil
