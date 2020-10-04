@@ -10,7 +10,7 @@ require (
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/sohaibomr/notification-gateway/common v0.0.0
 	github.com/spf13/viper v1.7.1
-	github.com/ugorji/go/codec v1.1.9 // indirect
+	github.com/ugorji/go v1.1.9 // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
 	golang.org/x/sys v0.0.0-20200929083018-4d22bbb62b3c // indirect
 	google.golang.org/protobuf v1.25.0 // indirect

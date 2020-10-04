@@ -14,9 +14,10 @@ import (
 
 type Consumer struct {
 	groupConsumer sarama.ConsumerGroup
+	topicNames    []string
 }
 
-func NewConsumerGroup(kafkaBroker []string, groupID string) *Consumer {
+func NewConsumerGroup(kafkaBroker []string, groupID string, topicNames []string) *Consumer {
 
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_4_0_0
@@ -25,7 +26,7 @@ func NewConsumerGroup(kafkaBroker []string, groupID string) *Consumer {
 		panic(err)
 	}
 
-	return &Consumer{groupConsumer: group}
+	return &Consumer{groupConsumer: group, topicNames: topicNames}
 }
 
 func (c *Consumer) Consume() {
@@ -39,8 +40,7 @@ func (c *Consumer) Consume() {
 	func() {
 		ctx := context.Background()
 		for {
-			topics := []string{"group"}
-			err := c.groupConsumer.Consume(ctx, topics, c)
+			err := c.groupConsumer.Consume(ctx, c.topicNames, c)
 			if err != nil {
 				fmt.Printf("kafka consume failed: %v, sleeping and retry in a moment\n", err)
 				time.Sleep(time.Second)
