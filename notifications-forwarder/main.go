@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sohaibomr/notification-gateway/demo/consumer"
+	"github.com/sohaibomr/notification-gateway/notifications-forwarder/consumer"
 )
 
 var (

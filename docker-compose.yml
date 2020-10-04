@@ -36,7 +36,7 @@ services:
     container_name: user-notifier
     network_mode: host
   
-    notifications-forwarder:
+  notifications-forwarder:
     build:
       context: ./
       dockerfile: ./notifications-forwarder/Dockerfile
