@@ -2,7 +2,7 @@ package consumer
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/Shopify/sarama"
@@ -39,7 +39,7 @@ func (c *PushNotificationConsumer) ConsumePushNotification() {
 		for {
 			err := c.group.Consume(ctx, c.topicNames, c)
 			if err != nil {
-				fmt.Printf("kafka consume failed: %v, sleeping and retry in a moment\n", err)
+				log.Printf("kafka consume failed: %v, sleeping and retry in a moment\n", err)
 				time.Sleep(time.Second)
 			}
 		}
@@ -56,7 +56,7 @@ func (c *PushNotificationConsumer) Cleanup(_ sarama.ConsumerGroupSession) error 
 
 func (c *PushNotificationConsumer) ConsumeClaim(sess sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for msg := range claim.Messages() {
-		fmt.Printf("consumed a message from Push Notification channel: %v\n", string(msg.Value))
+		log.Printf("consumed a message from Push Notification channel: %v\n", string(msg.Value))
 		sess.MarkMessage(msg, "")
 	}
 	return nil

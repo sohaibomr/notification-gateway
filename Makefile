@@ -10,6 +10,7 @@ tidy:
 	cd gateway && make tidy
 	cd group-notifier && make tidy
 	cd user-notifier && make tidy
+	cd rate-limiter && make tidy
 
 build:
 	$(MAKE) check

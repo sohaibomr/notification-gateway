@@ -15,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swagger:model groupNotificationRequest
 type groupNotificationRequest struct {
 	GroupID string `json:"groupId" binding:"required"`
 	models.NotificationRequest

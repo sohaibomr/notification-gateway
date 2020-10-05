@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/Shopify/sarama"
@@ -14,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// swagger:model userNotificationRequest
 type personalizedNotificationRequest struct {
 	UserID string `json:"userId" binding:"required"`
 	models.NotificationRequest
@@ -48,7 +50,7 @@ func (ac *APIContext) PersonalizedNotification(c *gin.Context) {
 	}
 	payload, err := json.Marshal(req)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	ac.kafkaProducer.Input() <- &sarama.ProducerMessage{Topic: ac.userTopic, Value: sarama.ByteEncoder(payload)}

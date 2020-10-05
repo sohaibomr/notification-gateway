@@ -1,0 +1,173 @@
+{
+  "swagger": "2.0",
+  "info": {},
+  "paths": {
+    "/notification/group": {
+      "post": {
+        "description": "Group Notification.",
+        "tags": [
+          "Notification Gateway"
+        ],
+        "summary": "Create Group Notification.",
+        "operationId": "postGroupNotification",
+        "parameters": [
+          {
+            "description": "req body",
+            "name": "acount",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/groupNotificationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Group notification object",
+            "schema": {
+              "$ref": "#/definitions/groupNotificationRequest"
+            }
+          }
+        }
+      }
+    },
+    "/notification/user": {
+      "post": {
+        "description": "User Notification.",
+        "tags": [
+          "Notification Gateway"
+        ],
+        "summary": "Create User Notification.",
+        "operationId": "postUserNotification",
+        "parameters": [
+          {
+            "description": "req body",
+            "name": "acount",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/userNotificationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User notification object",
+            "schema": {
+              "$ref": "#/definitions/userNotificationRequest"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NotificationRequest": {
+      "type": "object",
+      "title": "NotificationRequest ...",
+      "properties": {
+        "category": {
+          "type": "string",
+          "x-go-name": "Category"
+        },
+        "createdAt": {
+          "type": "string",
+          "x-go-name": "CreatedAt"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "sendVia": {
+          "type": "string",
+          "x-go-name": "SendVia"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Tags"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "rep/gateway/vendor/github.com/sohaibomr/notification-gateway/common/models"
+    },
+    "groupNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "x-go-name": "Category"
+        },
+        "createdAt": {
+          "type": "string",
+          "x-go-name": "CreatedAt"
+        },
+        "groupId": {
+          "type": "string",
+          "x-go-name": "GroupID"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "sendVia": {
+          "type": "string",
+          "x-go-name": "SendVia"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Tags"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "rep/gateway/api/v1"
+    },
+    "userNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "x-go-name": "Category"
+        },
+        "createdAt": {
+          "type": "string",
+          "x-go-name": "CreatedAt"
+        },
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        },
+        "sendVia": {
+          "type": "string",
+          "x-go-name": "SendVia"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Tags"
+        },
+        "type": {
+          "type": "string",
+          "x-go-name": "Type"
+        },
+        "userId": {
+          "type": "string",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-name": "personalizedNotificationRequest",
+      "x-go-package": "rep/gateway/api/v1"
+    }
+  }
+}
