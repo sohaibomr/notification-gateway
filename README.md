@@ -1,3 +1,15 @@
+#### Table of contents
+1. [Overview](#swvl-backend-challenge)
+    - [specifications](#specifications)
+    - [requirements](#requirements)
+2. [How to Build/Run](#how-to-build-adn-run)
+3. [Repo structure](#repo-structure)
+4. [Solution Overview and Architecture](#solution-overview-and-architecture)
+5. [Functional Description](#functional-description)
+6. [API](#api)
+7. [Fault Tolerance and High availability](#fault-tolerance-and-high-availability)
+8. [Scalability and Performance](#scalability-and-performance)
+9. [Security Considerations](#security-considerations)
 # Swvl Backend Challenge
 In SWVL, we are communicating with our customers via notifications. we are sending
 Promo codes to customers via SMS. Also, We are sending to our riders notifications
@@ -23,7 +35,7 @@ notifications for customers.
 - Document your APIs.
 - Test your code using unit test.
 
-# How to Build/Run:
+# How to Build and Run:
 1. Build the docker images of all services with `make build`.
 
 2. Run all serices with `make run` or `docker-compose up`.
@@ -43,7 +55,7 @@ notifications for customers.
 - Makefile makefile to take care of building/running the app, this is also available inside each service folder, so that frequently used commands can be mad part of automation.
 
 ```
-# Solution Overview & Architecture
+# Solution Overview and Architecture
 
 ![architecture-diagram](notification-gateway.jpg)
 
@@ -104,10 +116,10 @@ body:
 Also swager specs are hosted on `localhost:8080` using Swagger UI.
 ![swagger](swagger.png)
 
-# Fault Tolerance & High availability
+# Fault Tolerance and High availability
 - All the services can have multiple replication services, load balancers and serice disovery mechanism can select the next available gateway service in case of failure.
 - In case of queue consuming services, we can run more consumers per group which will automatically start consuming, given some othe partion has become unhealthy and partion number matches the consumers.
-# Scalability & Performance
+# Scalability and Performance
 - All the services are stateless and requires no such run time configurations whic may restart the service. Thats why in any container orchastration platform like kubernetes or docker swarm these ervices can be scaled up and scaled down with minimal cost.
 - All the I/O operations are asynchronous across services, as this comes built-in with go so maximum performance is guranted.
 # Security Considerations
