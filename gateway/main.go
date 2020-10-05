@@ -1,5 +1,31 @@
 package main
 
+// Package classification Swvl notification-gateway API.
+//
+// the purpose of this application is to provide an application
+// that is using plain go code to define an API
+//
+// This should demonstrate all the possible comment annotations
+// that are available to turn go code into a fully compliant swagger 2.0 spec
+//
+// Terms Of Service:
+//
+// there are no TOS at this moment, use at your own risk we take no responsibility
+//
+//     Schemes: http, https
+//     Host: localhost
+//     BasePath: /v2
+//     Version: 0.0.1
+//     License: MIT http://opensource.org/licenses/MIT
+//
+//     Consumes:
+//     - application/json
+//     - application/xml
+//
+//     Produces:
+//     - application/json
+//     - application/xml
+// swagger:meta
 import (
 	"reflect"
 	"strings"
@@ -42,7 +68,7 @@ func setup() {
 	// set defaults
 	viper.SetDefault(groupTopicNameEnv, "group")
 	viper.SetDefault(userTopicNameEnv, "user")
-	viper.SetDefault(serverIPAndPortEnv, "0.0.0.0:8080")
+	viper.SetDefault(serverIPAndPortEnv, ":8082")
 	viper.SetDefault(kafkaBrokerAddrEnv, []string{"localhost:9092"})
 
 	// get and set var from env
@@ -71,8 +97,43 @@ func startAPI() {
 			return name
 		})
 	}
+
+	// swagger:operation POST /notification/group notification postGroupNotification
+	// ---
+	// summary: Create Group Notification.
+	// description: Group Notification.
+	// tags:
+	// - Notification Gateway
+	// parameters:
+	// - name: acount
+	//   in: body
+	//   description: req body
+	//   schema:
+	//     "$ref": "#/definitions/groupNotificationRequest"
+	// responses:
+	//   "200":
+	//     description: Group notification object
+	//     schema:
+	//       "$ref": "#/definitions/groupNotificationRequest"
 	r.POST("/notification/group", apiContext.GroupNotification)
 
+	// swagger:operation POST /notification/user notification postUserNotification
+	// ---
+	// summary: Create User Notification.
+	// description: User Notification.
+	// tags:
+	// - Notification Gateway
+	// parameters:
+	// - name: acount
+	//   in: body
+	//   description: req body
+	//   schema:
+	//     "$ref": "#/definitions/userNotificationRequest"
+	// responses:
+	//   "200":
+	//     description: User notification object
+	//     schema:
+	//       "$ref": "#/definitions/userNotificationRequest"
 	r.POST("/notification/user", apiContext.PersonalizedNotification)
 	go func() {
 		for err := range kafkaProducer.Errors() {

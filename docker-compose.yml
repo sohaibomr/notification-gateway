@@ -42,3 +42,25 @@ services:
       dockerfile: ./notifications-forwarder/Dockerfile
     container_name: notifications-forwarder
     network_mode: host
+  
+  redis:
+    image: 'bitnami/redis:5.0.9'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    network_mode: host
+
+  rate-limiter:
+    build:
+      context: ./
+      dockerfile: ./rate-limiter/Dockerfile
+    container_name: rate-limiter
+    network_mode: host
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    volumes:
+      - ./swagger_gateway_specs.json:/swagger_gateway_specs.json
+    environment:
+      SWAGGER_JSON: /swagger_gateway_specs.json
+    network_mode: host

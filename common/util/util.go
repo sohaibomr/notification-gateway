@@ -39,7 +39,7 @@ func sendSMS(notification *models.UserMsg, producer sarama.AsyncProducer) {
 
 	payload, err := json.Marshal(notification)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	producer.Input() <- &sarama.ProducerMessage{Topic: "sms", Value: sarama.ByteEncoder(payload)}
 
@@ -48,14 +48,14 @@ func sendPushNotification(notification *models.UserMsg, producer sarama.AsyncPro
 
 	payload, err := json.Marshal(notification)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 	producer.Input() <- &sarama.ProducerMessage{Topic: "push", Value: sarama.ByteEncoder(payload)}
 }
 
 // MessageForwarder gets the user meta from DB and sends notification to sms or push service
 func NotificationForwarder(notification *models.UserMsg, producer sarama.AsyncProducer) {
-	fmt.Println(notification)
+	log.Println(notification)
 	sendVia := notification.SendVia
 
 	if sendVia == "sms" {
